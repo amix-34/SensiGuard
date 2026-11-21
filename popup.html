@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>SensiGuard</title>
+<link rel="stylesheet" href="popup.css"/>
+</head>
+<body>
+
+  <!-- HEADER (colour changes with state) -->
+  <div class="head theme-blue" id="head">
+    <div class="topbar">
+      <div class="brand">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        SENSIGUARD
+      </div>
+      <span class="badge" id="badge">Ready</span>
+    </div>
+
+    <div class="hero">
+      <div class="hero-ic" id="heroIcon"></div>
+      <h2 id="heroTitle">Ready to scan</h2>
+    </div>
+    <p class="desc" id="heroDesc"></p>
+
+    <div class="power-row">
+      <button class="power" id="powerBtn" role="switch" aria-checked="true">
+        <span id="powerLabel">ON</span>
+        <span class="knob">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+        </span>
+      </button>
+      <span class="power-text">READY TO SCAN</span>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" data-tab="protect">Protect</button>
+    <button class="tab" data-tab="why">Why it matters &#9432;</button>
+  </div>
+
+  <!-- PROTECT TAB -->
+  <div class="panel" id="panel-protect">
+    <div class="masked t-blue" id="maskedBox" hidden>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <div>
+        <b id="maskedTitle">IC number masked</b>
+        <span id="maskedSample">Shown on screen as ******-**-5678</span>
+      </div>
+    </div>
+
+    <div class="label" id="monLabel">Currently monitoring · tap &#9432; to learn why</div>
+    <div class="chips">
+      <div class="chip" data-key="ic"><span class="dot"></span>Malaysian IC<button class="info" data-key="ic">i</button></div>
+      <div class="chip" data-key="card"><span class="dot"></span>Credit card<button class="info" data-key="card">i</button></div>
+      <div class="chip" data-key="phone"><span class="dot"></span>Phone number<button class="info" data-key="phone">i</button></div>
+    </div>
+
+    <div class="tip" id="tip" hidden>
+      <b id="tipTitle"></b>
+      <p id="tipText"></p>
+      <div class="detects" id="tipDetects"></div>
+    </div>
+
+    <div class="checks" id="checksBox" hidden>
+      <div class="label">Security checks on this page</div>
+      <div id="checksList"></div>
+    </div>
+
+    <div class="row">
+      <div>
+        <b>Auto-mask detected data</b>
+        <small>Show ****** instead of digits</small>
+      </div>
+      <label class="small-switch">
+        <input type="checkbox" id="maskToggle" checked/>
+        <div class="small-slider"></div>
+      </label>
+    </div>
+
+    <div class="stat">
+      <b id="scanTime">—</b>
+      <span>Avg scan time</span>
+    </div>
+  </div>
+
+  <!-- WHY IT MATTERS TAB -->
+  <div class="panel" id="panel-why" hidden>
+    <div class="pdpa">
+      <h3>&#9878;&#65039; Malaysian law: PDPA 2010 (amended 2024)</h3>
+      <p>Organisations must protect personal data from misuse, loss and unauthorised access. This is the <b>Security Principle</b>. The law mostly binds companies, so users have few tools of their own.</p>
+      <p class="note">SensiGuard helps you reduce the risk of exposing your own data. It does not make a company PDPA compliant.</p>
+    </div>
+
+    <div class="label gap-top">Why these 3 data types</div>
+
+    <div class="card">
+      <div class="card-h"><b>Malaysian IC (MyKad)</b><span class="pill red">CANNOT CHANGE</span></div>
+      <p>A permanent ID. It is used to open accounts, apply for loans and prove who you are. If leaked, it can be misused for years.</p>
+      <code>990101-14-5678</code>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><b>Credit card</b><span class="pill brown">MONEY LOSS</span></div>
+      <p>It gives direct access to your money. A stolen number can be used for fraud straight away.</p>
+      <code>4111 1111 1111 1111</code>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><b>Phone number</b><span class="pill amber">SCAM TARGET</span></div>
+      <p>It is used for scam calls, phishing SMS and verification codes. Combined with your IC, it helps criminals pretend to be you.</p>
+      <code>012-3456789</code>
+    </div>
+  </div>
+
+  <div class="footer" id="footer"></div>
+
+  <!-- Header icons: cloned by popup.js (no innerHTML) -->
+  <template id="ico-shield"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></template>
+  <template id="ico-check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></template>
+  <template id="ico-alert"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="7.5" x2="12" y2="13"/><line x1="12" y1="16.5" x2="12" y2="16.5"/></svg></template>
+  <template id="ico-warn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg></template>
+
+  <script src="popup.js"></script>
+</body>
+</html>
